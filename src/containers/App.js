@@ -1,8 +1,8 @@
 import React from "react";
-import Nav from "./Nav";
-import Home from "./home/Home";
-import Register from "./register/Register";
-import * as Env from "./environments";
+import Nav from "../components/Nav/Nav";
+import Home from "../components/Home/Home";
+import Register from "../components/Register/Register";
+import * as Env from "../environments";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Parse from "parse";
