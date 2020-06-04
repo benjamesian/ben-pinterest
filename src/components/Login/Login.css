@@ -7,3 +7,12 @@
 .noError {
   display: none;
 }
+
+#login .box-form .formLogin {
+  margin: 0 auto;
+  width: 30%;
+}
+
+#login .box-form label {
+  display: flex;
+}

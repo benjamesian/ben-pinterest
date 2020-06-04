@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.css";
 import Parse from "parse";
-import { Form, Button, Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 class Home extends React.Component {
   constructor() {
@@ -35,74 +35,23 @@ class Home extends React.Component {
     event.preventDefault();
     try {
       await Parse.User.logIn(this.state.username, this.state.password);
-      alert("Logged in!");
+      console.log("Logged in!");
     } catch (e) {
       alert(e.message);
     }
   };
 
   render() {
+    console.log("Home: render");
+    if (!Parse.User.current()) {
+      console.log("Home: not logged in.")
+      this.props.history.push("/login");
+    }
+
     return (
       <section id="home">
         <Container>
-          <Row className={"box-form"}>
-            <Col>
-              <Form onSubmit={this.handleSubmit} className={"formLogin"}>
-                <Form.Group>
-                  <Form.Label htmlFor="username">Username</Form.Label>
-                  <Form.Control
-                    required
-                    id="username"
-                    type="text"
-                    onChange={this.changeHandler}
-                  />
-                  <Form.Control.Feedback
-                    className={
-                      this.state.usernameError ? "displayErrors" : "noError"
-                    }
-                  >
-                    Username is required
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label htmlFor="password">Password</Form.Label>
-                  <Form.Control
-                    required
-                    id="password"
-                    type="password"
-                    onChange={this.changeHandler}
-                  />
-                  <Form.Control.Feedback
-                    className={
-                      this.state.passwordError ? "displayErrors" : "noError"
-                    }
-                  >
-                    Password is required
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Row>
-                  <Button
-                    type="submit"
-                    className={"btn btn-primary"}
-                    disabled={
-                      (
-                        !this.state.username || !this.state.password
-                          ? true
-                          : false
-                      )
-                        ? true
-                        : false
-                    }
-                  >
-                    Login
-                  </Button>
-                  <Button href="/register" variant="link">
-                    Register
-                  </Button>
-                </Form.Row>
-              </Form>
-            </Col>
-          </Row>
+          Hoooowdy
         </Container>
       </section>
     );
