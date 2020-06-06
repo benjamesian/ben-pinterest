@@ -1,0 +1,9 @@
+.displayErrors.valid-feedback {
+  font-size: 10px;
+  color: #ff1d1d;
+  display: block;
+}
+
+.noError {
+  display: none;
+}

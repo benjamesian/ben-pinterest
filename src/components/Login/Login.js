@@ -34,8 +34,12 @@ class Login extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await Parse.User.logIn(this.state.username, this.state.password);
-      console.log("Logged in!");
+      const user = await Parse.User.logIn(
+        this.state.username,
+        this.state.password
+      );
+      this.props.onLogIn(user);
+      console.log("Logged in!", user);
       this.props.history.push("/");
     } catch (e) {
       alert(e.message);
@@ -101,6 +105,11 @@ class Login extends React.Component {
                   <Button href="/register" variant="link">
                     Register
                   </Button>
+                </Form.Row>
+                <Form.Row>
+                  <Form.Text>
+                    <a href="/reset_password">Reset Password</a>
+                  </Form.Text>
                 </Form.Row>
               </Form>
             </Col>

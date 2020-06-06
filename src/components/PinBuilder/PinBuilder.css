@@ -1,0 +1,29 @@
+.media-upload-container {
+  height: 100%;
+  border: 1px solid black;
+}
+
+.media-upload-container img {
+  width: 100%;
+}
+
+.media-upload-preview {
+  position: relative;
+}
+
+.media-upload-preview button {
+  width: 3rem;
+  height: 3rem;
+}
+
+#media-upload-input {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+}
+
+.pin-info-container input,
+.pin-info-container textarea {
+  width: 100%;
+}

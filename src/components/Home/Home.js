@@ -1,57 +1,59 @@
 import React from "react";
 import "./Home.css";
-import Parse from "parse";
 import { Container } from "react-bootstrap";
+import Parse from "parse";
+import Pins from "../Pins/Pins";
 
 class Home extends React.Component {
-  constructor() {
-    super();
+  mounted = false;
+
+  constructor(props) {
+    super(props);
     this.state = {
-      buttonLoading: false,
-      usernameError: false,
-      passwordError: false,
-      username: "",
-      password: "",
+      pins: [],
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.deletePinHandler = props.deletePinHandler.bind(this);
+    this.editPinHandler = props.editPinHandler.bind(this);
   }
 
-  changeHandler = (event) => {
-    const name = event.target.getAttribute("id");
-    const value = event.target.value;
-    if (!value || value === "") {
-      this.setState({
-        [`${name}Error`]: true,
-      });
-    } else {
-      this.setState({
-        [`${name}Error`]: false,
-        [name]: value,
-      });
-    }
-  };
+  async componentDidMount() {
+    this.mounted = true;
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
     try {
-      await Parse.User.logIn(this.state.username, this.state.password);
-      console.log("Logged in!");
+      const Pin = Parse.Object.extend("Pin");
+      const pinsQuery = new Parse.Query(Pin);
+      const pins = await pinsQuery.find();
+      const pinObjects = pins.map((pin) => ({
+        deleteHandler: this.deletePinHandler,
+        editHandler: this.editPinHandler,
+        pinId: pin.id,
+        authorId: pin.get("pinAuthor").id,
+        src: pin.get("imageFile").url(),
+        title: pin.get("title"),
+        description: pin.get("description"),
+        destinationLink: pin.get("destinationLink"),
+      }));
+
+      if (this.mounted) {
+        this.setState({ pins: pinObjects });
+      }
     } catch (e) {
-      alert(e.message);
+      console.log("Failed to load pins");
     }
-  };
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
 
   render() {
     console.log("Home: render");
-    if (!Parse.User.current()) {
-      console.log("Home: not logged in.")
-      this.props.history.push("/login");
-    }
 
-    return (
+    return(
       <section id="home">
         <Container>
-          Hoooowdy
+          <Pins pins={this.state.pins} />
         </Container>
       </section>
     );
